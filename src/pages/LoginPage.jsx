@@ -43,6 +43,28 @@ export default function LoginPage() {
         background: "#090d11",
       }}
     >
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        *, *::before, *::after { box-sizing: border-box; }
+        body { margin: 0; }
+        .login-input:focus {
+          outline: none;
+          border-color: #0CC8A8 !important;
+          box-shadow: 0 0 0 3px rgba(12,200,168,0.15) !important;
+        }
+        .login-input::placeholder { color: #AAAAAA; }
+        @media (min-width: 1024px) {
+          .login-layout { flex-direction: row !important; }
+          .login-left  { width: 55% !important; display: flex !important; }
+          .login-right { width: 45% !important; }
+        }
+        @media (max-width: 1023px) {
+          .login-left { display: none !important; }
+          .login-right { width: 100% !important; min-height: 100vh; }
+        }
+      `}</style>
+
+      {/* ── Gradient layers matching screenshot ── */}
       <div
         style={{
           position: "absolute",
@@ -52,7 +74,7 @@ export default function LoginPage() {
           pointerEvents: "none",
         }}
       >
-
+        {/* Top-left teal bloom */}
         <div
           style={{
             position: "absolute",
@@ -65,7 +87,7 @@ export default function LoginPage() {
             filter: "blur(55px)",
           }}
         />
-
+        {/* Mid-left softer teal fill */}
         <div
           style={{
             position: "absolute",
@@ -78,7 +100,7 @@ export default function LoginPage() {
             filter: "blur(90px)",
           }}
         />
-
+        {/* Bottom-right orange-red blast */}
         <div
           style={{
             position: "absolute",
@@ -91,7 +113,7 @@ export default function LoginPage() {
             filter: "blur(70px)",
           }}
         />
-
+        {/* Centre-bottom warm bleed */}
         <div
           style={{
             position: "absolute",
@@ -106,11 +128,12 @@ export default function LoginPage() {
         />
       </div>
 
-
+      {/* ── Layout ── */}
       <div
         className="login-layout"
         style={{ display: "flex", flex: 1, position: "relative", zIndex: 1 }}
       >
+        {/* LEFT COLUMN */}
         <div
           className="login-left"
           style={{
@@ -121,7 +144,7 @@ export default function LoginPage() {
             color: "#ffffff",
           }}
         >
-
+          {/* Logo */}
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <div
               style={{
@@ -141,6 +164,8 @@ export default function LoginPage() {
               aps
             </span>
           </div>
+
+          {/* Hero */}
           <div
             style={{
               maxWidth: 630,
@@ -213,7 +238,7 @@ export default function LoginPage() {
             </ul>
           </div>
 
-
+          {/* Trustpilot */}
           <div style={{ marginBottom: 64 }}>
             <div
               style={{
@@ -243,7 +268,7 @@ export default function LoginPage() {
           </div>
         </div>
 
-
+        {/* RIGHT COLUMN */}
         <div
           className="login-right"
           style={{
@@ -264,7 +289,7 @@ export default function LoginPage() {
               boxShadow: "0 32px 80px rgba(0,0,0,0.55)",
             }}
           >
-
+            {/* Header */}
             <div style={{ textAlign: "center", marginBottom: 28 }}>
               <h2
                 style={{
@@ -503,6 +528,7 @@ export default function LoginPage() {
               </button>
             </form>
 
+            {/* Social Logins */}
             <div style={{ marginTop: 16, display: "flex", gap: 12 }}>
               <button
                 style={{

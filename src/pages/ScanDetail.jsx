@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useTheme } from "../ThemeContext";
 
-// ─── Mock log lines ───────────────────────────────────────────────────────────
 const LOG_LINES = [
   {
     time: "09:00:00",
@@ -168,7 +167,6 @@ const FINDINGS = [
 
 const STEPS = ["Spidering", "Mapping", "Testing", "Validating", "Reporting"];
 
-// ─── Icons ────────────────────────────────────────────────────────────────────
 function GridIcon({ size = 16 }) {
   return (
     <svg
@@ -419,7 +417,6 @@ function MoonIcon({ size = 15 }) {
   );
 }
 
-// Step icons matching screenshot
 function SpiderIcon({ size = 18, color = "currentColor" }) {
   return (
     <svg
@@ -511,7 +508,6 @@ function ReportIcon({ size = 18, color = "currentColor" }) {
 
 const STEP_ICONS = [SpiderIcon, MapIcon, TestIcon, ValidateIcon, ReportIcon];
 
-// ─── Theme ────────────────────────────────────────────────────────────────────
 function makeTheme(dark) {
   return {
     bg: dark ? "#111113" : "#F5F5F5",
@@ -529,7 +525,6 @@ function makeTheme(dark) {
   };
 }
 
-// ─── Severity badge ───────────────────────────────────────────────────────────
 function SeverityBadge({ severity }) {
   const map = {
     Critical: { bg: "#EF4444", text: "#fff" },
@@ -555,7 +550,6 @@ function SeverityBadge({ severity }) {
   );
 }
 
-// ─── Render a log line with inline coloured spans ─────────────────────────────
 function LogLine({ line }) {
   return (
     <div
@@ -635,7 +629,6 @@ function LogLine({ line }) {
   );
 }
 
-// ─── Main Component ───────────────────────────────────────────────────────────
 export default function ScanDetail() {
   const { dark, setDark } = useTheme();
   const [activeNav, setActiveNav] = useState("scans");
@@ -646,7 +639,6 @@ export default function ScanDetail() {
 
   const t = makeTheme(dark);
 
-  // auto-scroll log to bottom
   useEffect(() => {
     if (logRef.current) logRef.current.scrollTop = logRef.current.scrollHeight;
   }, [activeTab]);
@@ -708,29 +700,6 @@ export default function ScanDetail() {
         transition: "background 0.2s, color 0.2s",
       }}
     >
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
-        *, *::before, *::after { box-sizing: border-box; }
-        body { margin: 0; }
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
-        .sd-nav-btn:hover { background: rgba(12,200,168,0.1) !important; color: #0CC8A8 !important; }
-        .sd-btn:hover { filter: brightness(0.88); }
-        @keyframes sdPulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
-        .sd-running-dot { animation: sdPulse 1.4s ease-in-out infinite; }
-        @media (max-width: 1023px) {
-          .sd-sidebar { position: fixed !important; z-index: 40; transform: translateX(-100%); transition: transform 0.28s ease; }
-          .sd-sidebar.open { transform: translateX(0) !important; }
-          .sd-hamburger { display: flex !important; }
-        }
-        @media (min-width: 1024px) {
-          .sd-hamburger { display: none !important; }
-          .sd-sidebar { position: sticky !important; top: 0; transform: none !important; }
-        }
-      `}</style>
-
-      {/* Mobile backdrop */}
       {sidebarOpen && (
         <div
           onClick={() => setSidebarOpen(false)}
@@ -744,7 +713,6 @@ export default function ScanDetail() {
         />
       )}
 
-      {/* ════════ SIDEBAR ════════ */}
       <aside
         className={`sd-sidebar${sidebarOpen ? " open" : ""}`}
         style={{
@@ -757,7 +725,6 @@ export default function ScanDetail() {
           flexShrink: 0,
         }}
       >
-        {/* Logo */}
         <div
           style={{
             display: "flex",
@@ -798,7 +765,6 @@ export default function ScanDetail() {
           
         </div>
 
-        {/* Primary nav */}
         <nav
           style={{
             flex: 1,
@@ -825,7 +791,6 @@ export default function ScanDetail() {
           ))}
         </nav>
 
-        {/* Secondary nav */}
         <div
           style={{
             padding: "10px 10px",
@@ -848,7 +813,6 @@ export default function ScanDetail() {
           ))}
         </div>
 
-        {/* User */}
         <div
           style={{
             display: "flex",
@@ -905,7 +869,6 @@ export default function ScanDetail() {
         </div>
       </aside>
 
-      {/* ════════ MAIN ════════ */}
       <div
         style={{
           flex: 1,
@@ -915,7 +878,6 @@ export default function ScanDetail() {
           overflow: "hidden",
         }}
       >
-        {/* ─── Header ─── */}
         <header
           style={{
             display: "flex",
@@ -997,7 +959,6 @@ export default function ScanDetail() {
           </div>
         </header>
 
-        {/* ─── Scan Progress Banner ─── */}
         <div
           style={{
             background: t.surface,
@@ -1007,7 +968,6 @@ export default function ScanDetail() {
           }}
         >
           <div style={{ display: "flex", alignItems: "stretch", gap: 0 }}>
-            {/* ── Left: Circular progress ── */}
             <div
               style={{
                 flexShrink: 0,
@@ -1021,7 +981,6 @@ export default function ScanDetail() {
               }}
             >
               <div style={{ position: "relative", width: 100, height: 100 }}>
-                {/* Dark filled circle background */}
                 <div
                   style={{
                     position: "absolute",
@@ -1031,7 +990,6 @@ export default function ScanDetail() {
                     border: `2px solid ${dark ? "#2A2A2F" : "#E0E0E0"}`,
                   }}
                 />
-                {/* SVG arc */}
                 <svg
                   width="100"
                   height="100"
@@ -1063,7 +1021,6 @@ export default function ScanDetail() {
                     strokeLinecap="round"
                   />
                 </svg>
-                {/* Text inside */}
                 <div
                   style={{
                     position: "absolute",
@@ -1098,7 +1055,6 @@ export default function ScanDetail() {
               </div>
             </div>
 
-            {/* ── Right: Steps + Metadata ── */}
             <div
               style={{
                 flex: 1,
@@ -1108,7 +1064,6 @@ export default function ScanDetail() {
                 gap: 24,
               }}
             >
-              {/* Step tracker */}
               <div
                 style={{
                   position: "relative",
@@ -1117,7 +1072,6 @@ export default function ScanDetail() {
                   justifyContent: "space-between",
                 }}
               >
-                {/* Connecting line — sits at vertical center of circles (circle height ~56px, center = 28px from top) */}
                 <div
                   style={{
                     position: "absolute",
@@ -1185,8 +1139,6 @@ export default function ScanDetail() {
                   );
                 })}
               </div>
-
-              {/* Metadata row */}
               <div
                 style={{
                   display: "flex",
@@ -1230,7 +1182,6 @@ export default function ScanDetail() {
           </div>
         </div>
 
-        {/* ─── Live Console + Finding Log ─── */}
         <div
           style={{
             flex: 1,
@@ -1239,7 +1190,6 @@ export default function ScanDetail() {
             overflow: "hidden",
           }}
         >
-          {/* Console header bar */}
           <div
             style={{
               display: "flex",
@@ -1321,8 +1271,6 @@ export default function ScanDetail() {
               </button>
             </div>
           </div>
-
-          {/* Two-panel area */}
           {consoleOpen && (
             <div
               style={{
@@ -1332,7 +1280,6 @@ export default function ScanDetail() {
                 minHeight: 0,
               }}
             >
-              {/* LEFT: Console */}
               <div
                 style={{
                   flex: 1,
@@ -1342,7 +1289,6 @@ export default function ScanDetail() {
                   minWidth: 0,
                 }}
               >
-                {/* Tabs */}
                 <div
                   style={{
                     display: "flex",
@@ -1380,8 +1326,6 @@ export default function ScanDetail() {
                     </button>
                   ))}
                 </div>
-
-                {/* Log output */}
                 <div
                   ref={logRef}
                   style={{
@@ -1397,8 +1341,6 @@ export default function ScanDetail() {
                   ))}
                 </div>
               </div>
-
-              {/* RIGHT: Finding Log */}
               <div
                 style={{
                   width: 400,
@@ -1507,7 +1449,6 @@ export default function ScanDetail() {
           )}
         </div>
 
-        {/* ─── Status Bar ─── */}
         <div
           style={{
             display: "flex",
