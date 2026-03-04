@@ -40,7 +40,7 @@ const LOG_LINES = [
     time: "09:03:00",
     parts: [
       {
-        text: "Great! I found a login page for a Help Desk Platform. I can see a useful comment: ",
+        text: "Great! I found a login page. I can see a useful comment: ",
         type: "normal",
       },
       {
@@ -52,14 +52,14 @@ const LOG_LINES = [
         type: "normal",
       },
       { text: "/password/test", type: "path" },
-      { text: ". Let me follow that path and explore it.", type: "normal" },
+      { text: ". Let me follow that path.", type: "normal" },
     ],
   },
   {
     time: "09:04:00",
     parts: [
       {
-        text: "The POST method is not allowed on /password/test. Let me check what the JavaScript does - it posts to ",
+        text: "The POST method is not allowed on /password/test. It posts to ",
         type: "normal",
       },
       { text: "'#'", type: "string" },
@@ -73,7 +73,7 @@ const LOG_LINES = [
     time: "09:05:00",
     parts: [
       {
-        text: "It redirects back to /password/test. Let me check if there's an /api endpoint or look for other paths. Let me also try exploring with the ",
+        text: "It redirects back to /password/test. Let me also try exploring with the ",
         type: "normal",
       },
       { text: "test:test", type: "link" },
@@ -91,7 +91,7 @@ const LOG_LINES = [
       },
       { text: "**IDOR vulnerability**", type: "bold" },
       {
-        text: " - I can access any user's dashboard by just changing the X-UserId header. Let me explore more of the application...",
+        text: " - I can access any user's dashboard by just changing the X-UserId header.",
         type: "normal",
       },
     ],
@@ -167,227 +167,126 @@ const FINDINGS = [
 
 const STEPS = ["Spidering", "Mapping", "Testing", "Validating", "Reporting"];
 
-function GridIcon({ size = 16 }) {
+const SvgIcon = ({ size = 16, children, ...p }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...p}
+  >
+    {children}
+  </svg>
+);
+
+function GridIcon() {
   return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+    <SvgIcon size={16}>
       <rect x="3" y="3" width="7" height="7" />
       <rect x="14" y="3" width="7" height="7" />
       <rect x="14" y="14" width="7" height="7" />
       <rect x="3" y="14" width="7" height="7" />
-    </svg>
+    </SvgIcon>
   );
 }
-function FolderIcon({ size = 16 }) {
+function FolderIcon() {
   return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+    <SvgIcon size={16}>
       <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
-    </svg>
+    </SvgIcon>
   );
 }
-function ScanIcon({ size = 16 }) {
+function ScanIcon() {
   return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+    <SvgIcon size={16}>
       <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-    </svg>
+    </SvgIcon>
   );
 }
-function CalendarIcon({ size = 16 }) {
+function CalendarIcon() {
   return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+    <SvgIcon size={16}>
       <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
       <line x1="16" y1="2" x2="16" y2="6" />
       <line x1="8" y1="2" x2="8" y2="6" />
       <line x1="3" y1="10" x2="21" y2="10" />
-    </svg>
+    </SvgIcon>
   );
 }
-function BellIcon({ size = 16 }) {
+function BellIcon() {
   return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+    <SvgIcon size={16}>
       <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
       <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-    </svg>
+    </SvgIcon>
   );
 }
-function SettingsIcon({ size = 16 }) {
+function SettingsIcon() {
   return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+    <SvgIcon size={16}>
       <circle cx="12" cy="12" r="3" />
       <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
-    </svg>
+    </SvgIcon>
   );
 }
-function SupportIcon({ size = 16 }) {
+function SupportIcon() {
   return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+    <SvgIcon size={16}>
       <circle cx="12" cy="12" r="10" />
       <circle cx="12" cy="12" r="4" />
       <line x1="4.93" y1="4.93" x2="9.17" y2="9.17" />
       <line x1="14.83" y1="14.83" x2="19.07" y2="19.07" />
       <line x1="14.83" y1="9.17" x2="19.07" y2="4.93" />
       <line x1="4.93" y1="19.07" x2="9.17" y2="14.83" />
-    </svg>
+    </SvgIcon>
   );
 }
-function XIcon({ size = 16 }) {
+function XIcon() {
   return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+    <SvgIcon size={15}>
       <line x1="18" y1="6" x2="6" y2="18" />
       <line x1="6" y1="6" x2="18" y2="18" />
-    </svg>
+    </SvgIcon>
   );
 }
-function ChevronDownIcon({ size = 14 }) {
+function ChevDownIcon() {
   return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+    <SvgIcon size={14}>
       <polyline points="6 9 12 15 18 9" />
-    </svg>
+    </SvgIcon>
   );
 }
-function ChevronRightIcon({ size = 14 }) {
+function ChevRightIcon() {
   return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+    <SvgIcon size={14}>
       <polyline points="9 18 15 12 9 6" />
-    </svg>
+    </SvgIcon>
   );
 }
-function MenuIcon({ size = 20 }) {
+function MenuIcon() {
   return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+    <SvgIcon size={20}>
       <line x1="3" y1="12" x2="21" y2="12" />
       <line x1="3" y1="6" x2="21" y2="6" />
       <line x1="3" y1="18" x2="21" y2="18" />
-    </svg>
+    </SvgIcon>
   );
 }
-function HomeIcon({ size = 14 }) {
+function HomeIcon() {
   return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+    <SvgIcon size={14}>
       <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
       <polyline points="9 22 9 12 15 12 15 22" />
-    </svg>
+    </SvgIcon>
   );
 }
-function SunIcon({ size = 15 }) {
+function SunIcon() {
   return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+    <SvgIcon size={15}>
       <circle cx="12" cy="12" r="5" />
       <line x1="12" y1="1" x2="12" y2="3" />
       <line x1="12" y1="21" x2="12" y2="23" />
@@ -397,31 +296,22 @@ function SunIcon({ size = 15 }) {
       <line x1="21" y1="12" x2="23" y2="12" />
       <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
       <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-    </svg>
+    </SvgIcon>
   );
 }
-function MoonIcon({ size = 15 }) {
+function MoonIcon() {
   return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+    <SvgIcon size={15}>
       <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-    </svg>
+    </SvgIcon>
   );
 }
 
-function SpiderIcon({ size = 18, color = "currentColor" }) {
+function SpiderIcon({ color }) {
   return (
     <svg
-      width={size}
-      height={size}
+      width={20}
+      height={20}
       viewBox="0 0 24 24"
       fill="none"
       stroke={color}
@@ -434,11 +324,11 @@ function SpiderIcon({ size = 18, color = "currentColor" }) {
     </svg>
   );
 }
-function MapIcon({ size = 18, color = "currentColor" }) {
+function MapIcon({ color }) {
   return (
     <svg
-      width={size}
-      height={size}
+      width={20}
+      height={20}
       viewBox="0 0 24 24"
       fill="none"
       stroke={color}
@@ -452,11 +342,11 @@ function MapIcon({ size = 18, color = "currentColor" }) {
     </svg>
   );
 }
-function TestIcon({ size = 18, color = "currentColor" }) {
+function TestIcon({ color }) {
   return (
     <svg
-      width={size}
-      height={size}
+      width={20}
+      height={20}
       viewBox="0 0 24 24"
       fill="none"
       stroke={color}
@@ -469,11 +359,11 @@ function TestIcon({ size = 18, color = "currentColor" }) {
     </svg>
   );
 }
-function ValidateIcon({ size = 18, color = "currentColor" }) {
+function ValidateIcon({ color }) {
   return (
     <svg
-      width={size}
-      height={size}
+      width={20}
+      height={20}
       viewBox="0 0 24 24"
       fill="none"
       stroke={color}
@@ -485,11 +375,11 @@ function ValidateIcon({ size = 18, color = "currentColor" }) {
     </svg>
   );
 }
-function ReportIcon({ size = 18, color = "currentColor" }) {
+function ReportIcon({ color }) {
   return (
     <svg
-      width={size}
-      height={size}
+      width={20}
+      height={20}
       viewBox="0 0 24 24"
       fill="none"
       stroke={color}
@@ -508,65 +398,21 @@ function ReportIcon({ size = 18, color = "currentColor" }) {
 
 const STEP_ICONS = [SpiderIcon, MapIcon, TestIcon, ValidateIcon, ReportIcon];
 
-function makeTheme(dark) {
-  return {
-    bg: dark ? "#111113" : "#F5F5F5",
-    surface: dark ? "#1A1A1D" : "#FFFFFF",
-    surface2: dark ? "#1E1E22" : "#F8F8F8",
-    surface3: dark ? "#2C2C32" : "#E4E4E4",
-    border: dark ? "#2A2A2F" : "#E5E5E5",
-    text: dark ? "#F0F0F0" : "#111113",
-    muted: dark ? "#888897" : "#6B7280",
-    btnBg: dark ? "#222226" : "#FFFFFF",
-    btnBorder: dark ? "#2A2A2F" : "#E5E5E5",
-    consoleBg: dark ? "#131316" : "#F0F2F5",
-    logText: dark ? "#C9C9D8" : "#374151",
-    termBg: dark ? "#0F0F12" : "#F3F4F6",
-  };
-}
+const SEVERITY_BADGE = {
+  Critical: "bg-red-500 text-white",
+  High: "bg-orange-500 text-white",
+  Medium: "bg-amber-500 text-white",
+  Low: "bg-green-500 text-white",
+};
 
-function SeverityBadge({ severity }) {
-  const map = {
-    Critical: { bg: "#EF4444", text: "#fff" },
-    High: { bg: "#F97316", text: "#fff" },
-    Medium: { bg: "#F59E0B", text: "#fff" },
-    Low: { bg: "#22C55E", text: "#fff" },
-  };
-  const c = map[severity] || map.Low;
+function LogLine({ line, logText }) {
   return (
-    <span
-      style={{
-        display: "inline-block",
-        padding: "2px 10px",
-        borderRadius: 5,
-        background: c.bg,
-        color: c.text,
-        fontSize: 11,
-        fontWeight: 700,
-      }}
-    >
-      {severity}
-    </span>
-  );
-}
-
-function LogLine({ line }) {
-  return (
-    <div
-      style={{
-        marginBottom: 16,
-        fontFamily: "'JetBrains Mono', 'Fira Code', monospace",
-        fontSize: 12.5,
-        lineHeight: 1.7,
-        whiteSpace: "pre-wrap",
-        wordBreak: "break-word",
-      }}
-    >
-      <span style={{ color: "#888897" }}>[{line.time}]</span>{" "}
+    <div className="mb-4 font-mono text-[12.5px] leading-[1.7] whitespace-pre-wrap break-words">
+      <span className="text-[#888897]">[{line.time}]</span>{" "}
       {line.parts.map((p, i) => {
         if (p.type === "link")
           return (
-            <span key={i} style={{ color: "#0CC8A8" }}>
+            <span key={i} className="text-[#0CC8A8]">
               {p.text}
             </span>
           );
@@ -574,19 +420,14 @@ function LogLine({ line }) {
           return (
             <span
               key={i}
-              style={{
-                color: "#0CC8A8",
-                background: "rgba(12,200,168,0.1)",
-                padding: "1px 5px",
-                borderRadius: 4,
-              }}
+              className="text-[#0CC8A8] bg-[rgba(12,200,168,0.1)] px-1 rounded"
             >
               {p.text}
             </span>
           );
         if (p.type === "string")
           return (
-            <span key={i} style={{ color: "#F59E0B" }}>
+            <span key={i} className="text-amber-400">
               {p.text}
             </span>
           );
@@ -594,33 +435,25 @@ function LogLine({ line }) {
           return (
             <span
               key={i}
-              style={{
-                color: "#0CC8A8",
-                background: "rgba(12,200,168,0.15)",
-                padding: "1px 6px",
-                borderRadius: 4,
-              }}
+              className="text-[#0CC8A8] bg-[rgba(12,200,168,0.15)] px-1.5 rounded"
             >
               {p.text}
             </span>
           );
         if (p.type === "bold")
           return (
-            <span key={i} style={{ color: "#EF4444", fontWeight: 700 }}>
+            <span key={i} className="text-red-400 font-bold">
               {p.text}
             </span>
           );
         if (p.type === "code")
           return (
-            <span
-              key={i}
-              style={{ color: "#9CA3AF", display: "block", paddingLeft: 12 }}
-            >
+            <span key={i} className="text-gray-400 block pl-3">
               {p.text}
             </span>
           );
         return (
-          <span key={i} style={{ color: "inherit" }}>
+          <span key={i} style={{ color: logText }}>
             {p.text}
           </span>
         );
@@ -637,11 +470,21 @@ export default function ScanDetail() {
   const [consoleOpen, setConsoleOpen] = useState(true);
   const logRef = useRef(null);
 
-  const t = makeTheme(dark);
-
   useEffect(() => {
     if (logRef.current) logRef.current.scrollTop = logRef.current.scrollHeight;
   }, [activeTab]);
+
+  const bg = dark ? "bg-[#111113]" : "bg-[#F5F5F5]";
+  const surface = dark ? "bg-[#1A1A1D]" : "bg-white";
+  const surface2 = dark ? "bg-[#1E1E22]" : "bg-[#F8F8F8]";
+  const border = dark ? "border-[#2A2A2F]" : "border-[#E5E5E5]";
+  const text = dark ? "text-[#F0F0F0]" : "text-[#111113]";
+  const muted = dark ? "text-[#888897]" : "text-gray-500";
+  const btnBase = `inline-flex items-center gap-1.5 px-4 py-2 rounded-lg border text-[13px] font-semibold cursor-pointer transition-all ${dark ? "bg-[#222226] border-[#2A2A2F] text-[#F0F0F0]" : "bg-white border-[#E5E5E5] text-[#111113]"}`;
+  const navActive = "bg-[rgba(12,200,168,0.12)] text-[#0CC8A8]";
+  const navInactive = `bg-transparent ${muted} hover:bg-[rgba(12,200,168,0.08)] hover:text-[#0CC8A8]`;
+  const consoleBg = dark ? "bg-[#131316]" : "bg-[#F0F2F5]";
+  const logText = dark ? "#C9C9D8" : "#374151";
 
   const NAV_PRIMARY = [
     { id: "dashboard", label: "Dashboard", Icon: GridIcon },
@@ -655,350 +498,141 @@ export default function ScanDetail() {
     { id: "support", label: "Support", Icon: SupportIcon },
   ];
 
-  const baseBtnStyle = {
-    display: "inline-flex",
-    alignItems: "center",
-    gap: 6,
-    padding: "8px 18px",
-    borderRadius: 8,
-    background: t.btnBg,
-    border: `1px solid ${t.btnBorder}`,
-    color: t.text,
-    fontSize: 13,
-    fontWeight: 600,
-    cursor: "pointer",
-    whiteSpace: "nowrap",
-  };
-
-  const navBtn = (active) => ({
-    width: "100%",
-    display: "flex",
-    alignItems: "center",
-    gap: 10,
-    padding: "8px 12px",
-    borderRadius: 8,
-    border: "none",
-    background: active ? "rgba(12,200,168,0.12)" : "transparent",
-    color: active ? "#0CC8A8" : t.muted,
-    fontSize: 13.5,
-    fontWeight: 500,
-    cursor: "pointer",
-    textAlign: "left",
-    transition: "background 0.15s, color 0.15s",
-  });
-
   const activeLines = activeTab === "activity" ? LOG_LINES : VERIFICATION_LINES;
 
   return (
     <div
-      style={{
-        minHeight: "100vh",
-        display: "flex",
-        background: t.bg,
-        color: t.text,
-        fontFamily: "'Inter', system-ui, sans-serif",
-        transition: "background 0.2s, color 0.2s",
-      }}
+      className={`min-h-screen flex ${dark ? "bg-[#111113] text-[#F0F0F0]" : "bg-[#F5F5F5] text-[#111113]"} font-sans transition-colors`}
     >
+
       {sidebarOpen && (
         <div
           onClick={() => setSidebarOpen(false)}
-          style={{
-            position: "fixed",
-            inset: 0,
-            zIndex: 30,
-            background: "rgba(0,0,0,0.6)",
-            backdropFilter: "blur(2px)",
-          }}
+          className="fixed inset-0 z-30 bg-black/60 backdrop-blur-sm"
         />
       )}
 
       <aside
-        className={`sd-sidebar${sidebarOpen ? " open" : ""}`}
-        style={{
-          width: 220,
-          height: "100vh",
-          display: "flex",
-          flexDirection: "column",
-          background: t.surface,
-          borderRight: `1px solid ${t.border}`,
-          flexShrink: 0,
-        }}
+        className={`sd-sidebar${sidebarOpen ? " open" : ""} w-[220px] h-screen flex flex-col ${surface} border-r ${border} shrink-0`}
       >
         <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            padding: "14px 18px",
-            borderBottom: `1px solid ${t.border}`,
-          }}
+          className={`flex items-center justify-between px-4 py-3.5 border-b ${border}`}
         >
-          <div style={{ display: "flex", alignItems: "center", gap: 9 }}>
-            <div
-              style={{
-                width: 28,
-                height: 28,
-                borderRadius: "50%",
-                background: "#0CC8A8",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "#fff",
-                fontSize: 12,
-                fontWeight: 700,
-              }}
-            >
-              ⚪
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-7 rounded-full bg-[#0CC8A8] flex items-center justify-center text-white text-xs font-bold">
+              a
             </div>
-            <span
-              style={{
-                fontWeight: 700,
-                fontSize: 18,
-                letterSpacing: "-0.02em",
-                color: t.text,
-              }}
-            >
+            <span className={`font-bold text-[18px] tracking-tight ${text}`}>
               aps
             </span>
           </div>
-          
+          <button
+            onClick={() => setSidebarOpen(false)}
+            className="bg-transparent border-none cursor-pointer flex p-1"
+          >
+            <XIcon />
+          </button>
         </div>
 
-        <nav
-          style={{
-            flex: 1,
-            padding: "12px 10px",
-            display: "flex",
-            flexDirection: "column",
-            gap: 2,
-          }}
-        >
+        <nav className="flex-1 p-2.5 flex flex-col gap-0.5">
           {NAV_PRIMARY.map(({ id, label, Icon }) => (
             <button
               key={id}
-              className="sd-nav-btn"
               onClick={() => {
                 setActiveNav(id);
                 setSidebarOpen(false);
               }}
-              style={navBtn(activeNav === id)}
-              aria-current={activeNav === id ? "page" : undefined}
+              className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg border-none text-[13.5px] font-medium cursor-pointer transition-all ${activeNav === id ? navActive : navInactive}`}
             >
-              <Icon size={16} />
+              <Icon />
               {label}
             </button>
           ))}
         </nav>
 
-        <div
-          style={{
-            padding: "10px 10px",
-            borderTop: `1px solid ${t.border}`,
-            display: "flex",
-            flexDirection: "column",
-            gap: 2,
-          }}
-        >
+        <div className={`p-2.5 border-t ${border} flex flex-col gap-0.5`}>
           {NAV_SECONDARY.map(({ id, label, Icon }) => (
             <button
               key={id}
-              className="sd-nav-btn"
               onClick={() => setActiveNav(id)}
-              style={navBtn(activeNav === id)}
+              className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg border-none text-[13.5px] font-medium cursor-pointer transition-all ${activeNav === id ? navActive : navInactive}`}
             >
-              <Icon size={16} />
+              <Icon />
               {label}
             </button>
           ))}
         </div>
 
         <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            padding: "13px 16px",
-            borderTop: `1px solid ${t.border}`,
-          }}
+          className={`flex items-center justify-between px-4 py-3 border-t ${border}`}
         >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 9,
-              minWidth: 0,
-            }}
-          >
-            <div
-              style={{
-                width: 32,
-                height: 32,
-                borderRadius: "50%",
-                background: "linear-gradient(135deg,#FB923C,#EF4444)",
-                flexShrink: 0,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "#fff",
-                fontWeight: 700,
-                fontSize: 13,
-              }}
-            >
+          <div className="flex items-center gap-2 min-w-0">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-400 to-red-500 shrink-0 flex items-center justify-center text-white font-bold text-[13px]">
               A
             </div>
-            <div style={{ minWidth: 0 }}>
-              <div
-                style={{
-                  fontSize: 12,
-                  fontWeight: 500,
-                  color: t.text,
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  whiteSpace: "nowrap",
-                }}
-              >
+            <div className="min-w-0">
+              <div className={`text-xs font-medium ${text} truncate`}>
                 admin@edu.com
               </div>
-              <div style={{ fontSize: 11, color: t.muted }}>Security Lead</div>
+              <div className={`text-[11px] ${muted}`}>Security Lead</div>
             </div>
           </div>
-          <span style={{ color: t.muted, display: "flex" }}>
-            <ChevronRightIcon size={14} />
+          <span className={muted}>
+            <ChevRightIcon />
           </span>
         </div>
       </aside>
 
-      <div
-        style={{
-          flex: 1,
-          display: "flex",
-          flexDirection: "column",
-          minWidth: 0,
-          overflow: "hidden",
-        }}
-      >
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         <header
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            padding: "10px 20px",
-            borderBottom: `1px solid ${t.border}`,
-            background: t.surface,
-            flexShrink: 0,
-          }}
+          className={`flex items-center justify-between px-5 py-2.5 border-b ${border} ${surface} shrink-0`}
         >
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <div className="flex items-center gap-2.5">
             <button
-              className="sd-hamburger sd-btn"
               onClick={() => setSidebarOpen(true)}
-              style={{
-                background: "none",
-                border: "none",
-                cursor: "pointer",
-                color: t.text,
-                display: "none",
-                padding: 4,
-              }}
-              aria-label="Open menu"
+              className="lg:hidden bg-transparent border-none cursor-pointer flex p-1"
             >
-              <MenuIcon size={20} />
+              <MenuIcon />
             </button>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 6,
-                fontSize: 13,
-                color: t.muted,
-              }}
-            >
-              <span style={{ fontWeight: 600, fontSize: 15, color: t.text }}>
-                Scan
-              </span>
-              <HomeIcon size={13} />
-              <span style={{ opacity: 0.4 }}>/</span>
+            <div className={`flex items-center gap-1.5 text-[13px] ${muted}`}>
+              <span className={`font-semibold text-[15px] ${text}`}>Scan</span>
+              <HomeIcon />
+              <span className="opacity-40">/</span>
               <span>Private Assets</span>
-              <span style={{ opacity: 0.4 }}>/</span>
-              <span style={{ color: "#0CC8A8", fontWeight: 500 }}>
-                New Scan
-              </span>
+              <span className="opacity-40">/</span>
+              <span className="text-[#0CC8A8] font-medium">New Scan</span>
             </div>
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <div className="flex items-center gap-2.5">
             <button
-              className="sd-btn"
               onClick={() => setDark(!dark)}
-              style={{ ...baseBtnStyle, padding: "7px 10px", fontWeight: 500 }}
+              className={`${btnBase} px-2.5`}
               aria-label="Toggle theme"
             >
-              {dark ? <SunIcon size={15} /> : <MoonIcon size={15} />}
+              {dark ? <SunIcon /> : <MoonIcon />}
             </button>
-            <button
-              className="sd-btn"
-              style={{
-                ...baseBtnStyle,
-                background: dark ? "#1E1E22" : "#FFFFFF",
-                border: `1px solid ${t.border}`,
-              }}
-            >
-              Export Report
-            </button>
-            <button
-              className="sd-btn"
-              style={{
-                ...baseBtnStyle,
-                background: "rgba(239,68,68,0.08)",
-                border: "1px solid rgba(239,68,68,0.5)",
-                color: "#EF4444",
-              }}
-            >
+            <button className={btnBase}>Export Report</button>
+            <button className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg border border-red-500/50 bg-red-500/[0.08] text-red-500 text-[13px] font-semibold cursor-pointer">
               Stop Scan
             </button>
           </div>
         </header>
 
-        <div
-          style={{
-            background: t.surface,
-            borderBottom: `1px solid ${t.border}`,
-            padding: "28px 32px",
-            flexShrink: 0,
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "stretch", gap: 0 }}>
+        <div className={`${surface} border-b ${border} px-8 py-7 shrink-0`}>
+          <div className="flex items-stretch gap-0">
             <div
-              style={{
-                flexShrink: 0,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                paddingRight: 36,
-                marginRight: 36,
-                borderRight: `1px solid ${t.border}`,
-              }}
+              className={`shrink-0 flex flex-col items-center justify-center pr-9 mr-9 border-r ${border}`}
             >
-              <div style={{ position: "relative", width: 100, height: 100 }}>
+              <div className="relative w-[100px] h-[100px]">
                 <div
-                  style={{
-                    position: "absolute",
-                    inset: 0,
-                    borderRadius: "50%",
-                    background: dark ? "#1A1A1F" : "#F0F0F0",
-                    border: `2px solid ${dark ? "#2A2A2F" : "#E0E0E0"}`,
-                  }}
+                  className={`absolute inset-0 rounded-full border-2 ${dark ? "bg-[#1A1A1F] border-[#2A2A2F]" : "bg-[#F0F0F0] border-[#E0E0E0]"}`}
                 />
                 <svg
                   width="100"
                   height="100"
                   viewBox="0 0 100 100"
-                  style={{
-                    position: "absolute",
-                    inset: 0,
-                    transform: "rotate(-90deg)",
-                  }}
+                  className="absolute inset-0"
+                  style={{ transform: "rotate(-90deg)" }}
                 >
                   <circle
                     cx="50"
@@ -1007,7 +641,6 @@ export default function ScanDetail() {
                     fill="none"
                     stroke={dark ? "#2C2C38" : "#DCDCDC"}
                     strokeWidth="4"
-
                   />
                   <circle
                     cx="50"
@@ -1021,117 +654,53 @@ export default function ScanDetail() {
                     strokeLinecap="round"
                   />
                 </svg>
-                <div
-                  style={{
-                    position: "absolute",
-                    inset: 0,
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <span
-                    style={{
-                      fontSize: 24,
-                      fontWeight: 700,
-                      color: "#0CC8A8",
-                      lineHeight: 1,
-                    }}
-                  >
+                <div className="absolute inset-0 flex flex-col items-center justify-center">
+                  <span className="text-[24px] font-bold text-[#0CC8A8] leading-none">
                     0%
                   </span>
-                  <span
-                    style={{
-                      fontSize: 10,
-                      color: t.muted,
-                      marginTop: 4,
-                      letterSpacing: "0.02em",
-                    }}
-                  >
+                  <span className={`text-[10px] ${muted} mt-1 tracking-wide`}>
                     In Progress
                   </span>
                 </div>
               </div>
             </div>
 
-            <div
-              style={{
-                flex: 1,
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-                gap: 24,
-              }}
-            >
-              <div
-                style={{
-                  position: "relative",
-                  display: "flex",
-                  alignItems: "flex-start",
-                  justifyContent: "space-between",
-                }}
-              >
+            <div className="flex-1 flex flex-col justify-between gap-6">
+              <div className="relative flex items-start justify-between">
                 <div
-                  style={{
-                    position: "absolute",
-                    top: 28,
-                    left: 28,
-                    right: 28,
-                    height: 1,
-                    background: dark ? "#2A2A2F" : "#DCDCDC",
-                    zIndex: 0,
-                  }}
+                  className={`absolute top-7 left-7 right-7 h-px ${dark ? "bg-[#2A2A2F]" : "bg-[#DCDCDC]"} z-0`}
                 />
-
                 {STEPS.map((step, i) => {
                   const isActive = i === 0;
                   const IconComp = STEP_ICONS[i];
+                  const iconColor = isActive
+                    ? "#fff"
+                    : dark
+                      ? "#666677"
+                      : "#999";
                   return (
                     <div
                       key={step}
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        gap: 10,
-                        zIndex: 1,
-                        flex: 1,
-                      }}
+                      className="flex flex-col items-center gap-2.5 z-10 flex-1"
                     >
                       <div
+                        className="w-14 h-14 rounded-full flex items-center justify-center shrink-0 transition-all"
                         style={{
-                          width: 56,
-                          height: 56,
-                          borderRadius: "50%",
                           background: isActive
                             ? "#0CC8A8"
                             : dark
                               ? "#1C1C22"
-                              : "#ffffff",
+                              : "#EBEBEB",
                           border: `2px solid ${isActive ? "#0CC8A8" : dark ? "#2A2A2F" : "#DCDCDC"}`,
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
                           boxShadow: isActive
                             ? "0 0 0 5px rgba(12,200,168,0.22), 0 0 16px rgba(12,200,168,0.3)"
                             : "none",
-                          transition: "all 0.2s",
-                          flexShrink: 0,
                         }}
                       >
-                        <IconComp
-                          size={20}
-                          color={isActive ? "#fff" : dark ? "#666677" : "#999"}
-                        />
+                        <IconComp color={iconColor} />
                       </div>
                       <span
-                        style={{
-                          fontSize: 12.5,
-                          whiteSpace: "nowrap",
-                          color: isActive ? "#0CC8A8" : t.muted,
-                          fontWeight: isActive ? 600 : 400,
-                        }}
+                        className={`text-[12.5px] whitespace-nowrap font-${isActive ? "semibold" : "normal"} ${isActive ? "text-[#0CC8A8]" : muted}`}
                       >
                         {step}
                       </span>
@@ -1139,14 +708,8 @@ export default function ScanDetail() {
                   );
                 })}
               </div>
-              <div
-                style={{
-                  display: "flex",
-                  gap: 0,
-                  paddingTop: 4,
-                  borderTop: `1px solid ${t.border}`,
-                }}
-              >
+
+              <div className={`flex gap-0 pt-1 border-t ${border}`}>
                 {[
                   { label: "Scan Type", value: "Grey Box" },
                   { label: "Targets", value: "google.com" },
@@ -1155,23 +718,12 @@ export default function ScanDetail() {
                   { label: "Files", value: "Control.pdf" },
                   { label: "Checklists", value: "40/350", teal: true },
                 ].map(({ label, value, teal }, i) => (
-                  <div key={i} style={{ flex: 1, paddingTop: 12 }}>
-                    <div
-                      style={{
-                        fontSize: 11,
-                        color: t.muted,
-                        marginBottom: 5,
-                        fontWeight: 500,
-                      }}
-                    >
+                  <div key={i} className="flex-1 pt-3">
+                    <div className={`text-[11px] ${muted} mb-1 font-medium`}>
                       {label}
                     </div>
                     <div
-                      style={{
-                        fontSize: 14,
-                        fontWeight: 700,
-                        color: teal ? "#0CC8A8" : t.text,
-                      }}
+                      className={`text-[14px] font-bold ${teal ? "text-[#0CC8A8]" : text}`}
                     >
                       {value}
                     </div>
@@ -1182,122 +734,44 @@ export default function ScanDetail() {
           </div>
         </div>
 
-        <div
-          style={{
-            flex: 1,
-            display: "flex",
-            flexDirection: "column",
-            overflow: "hidden",
-          }}
-        >
+        <div className="flex-1 flex flex-col overflow-hidden">
           <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              padding: "10px 20px",
-              borderBottom: `1px solid ${t.border}`,
-              background: t.surface,
-              flexShrink: 0,
-            }}
+            className={`flex items-center justify-between px-5 py-2.5 border-b ${border} ${surface} shrink-0`}
           >
-            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-              <span
-                className="sd-running-dot"
-                style={{
-                  width: 8,
-                  height: 8,
-                  borderRadius: "50%",
-                  background: "#0CC8A8",
-                  display: "inline-block",
-                }}
-              />
-              <span style={{ fontWeight: 600, fontSize: 14, color: t.text }}>
+            <div className="flex items-center gap-2.5">
+              <span className="sd-pulse w-2 h-2 rounded-full bg-[#0CC8A8] inline-block" />
+              <span className={`font-semibold text-[14px] ${text}`}>
                 Live Scan Console
               </span>
               <span
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 6,
-                  padding: "3px 12px",
-                  borderRadius: 999,
-                  background: dark ? "#1E1E22" : "#F0F0F0",
-                  border: `1px solid ${t.border}`,
-                  fontSize: 12,
-                  color: t.muted,
-                }}
+                className={`inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs ${muted} border ${border} ${dark ? "bg-[#1E1E22]" : "bg-[#F0F0F0]"}`}
               >
-                <span
-                  className="sd-running-dot"
-                  style={{
-                    width: 6,
-                    height: 6,
-                    borderRadius: "50%",
-                    background: "#0CC8A8",
-                    display: "inline-block",
-                  }}
-                />
+                <span className="sd-pulse w-1.5 h-1.5 rounded-full bg-[#0CC8A8] inline-block" />
                 Running...
               </span>
             </div>
-            <div style={{ display: "flex", gap: 6 }}>
+            <div className="flex gap-1.5">
               <button
-                className="sd-btn"
                 onClick={() => setConsoleOpen(!consoleOpen)}
-                style={{
-                  background: "none",
-                  border: "none",
-                  cursor: "pointer",
-                  color: t.muted,
-                  display: "flex",
-                  padding: 4,
-                }}
+                className={`bg-transparent border-none cursor-pointer flex p-1 ${muted}`}
               >
-                <ChevronDownIcon size={16} />
+                <ChevDownIcon />
               </button>
               <button
-                className="sd-btn"
-                style={{
-                  background: "none",
-                  border: "none",
-                  cursor: "pointer",
-                  color: t.muted,
-                  display: "flex",
-                  padding: 4,
-                }}
+                className={`bg-transparent border-none cursor-pointer flex p-1 ${muted}`}
               >
-                <XIcon size={15} />
+                <XIcon />
               </button>
             </div>
           </div>
+
           {consoleOpen && (
-            <div
-              style={{
-                flex: 1,
-                display: "flex",
-                overflow: "hidden",
-                minHeight: 0,
-              }}
-            >
+            <div className="flex-1 flex overflow-hidden min-h-0">
               <div
-                style={{
-                  flex: 1,
-                  display: "flex",
-                  flexDirection: "column",
-                  borderRight: `1px solid ${t.border}`,
-                  minWidth: 0,
-                }}
+                className={`flex-1 flex flex-col border-r ${border} min-w-0`}
               >
                 <div
-                  style={{
-                    display: "flex",
-                    gap: 0,
-                    padding: "0 20px",
-                    borderBottom: `1px solid ${t.border}`,
-                    background: t.surface2,
-                    flexShrink: 0,
-                  }}
+                  className={`flex gap-0 px-5 border-b ${border} ${surface2} shrink-0`}
                 >
                   {[
                     { id: "activity", label: "Activity Log" },
@@ -1306,139 +780,59 @@ export default function ScanDetail() {
                     <button
                       key={id}
                       onClick={() => setActiveTab(id)}
-                      style={{
-                        padding: "12px 4px",
-                        marginRight: 24,
-                        background: "none",
-                        border: "none",
-                        cursor: "pointer",
-                        fontSize: 13,
-                        fontWeight: 500,
-                        color: activeTab === id ? "#0CC8A8" : t.muted,
-                        borderBottom:
-                          activeTab === id
-                            ? "2px solid #0CC8A8"
-                            : "2px solid transparent",
-                        transition: "color 0.15s, border-color 0.15s",
-                      }}
+                      className={`py-3 mr-6 bg-transparent border-none border-b-2 cursor-pointer text-[13px] font-medium transition-colors ${activeTab === id ? "text-[#0CC8A8] border-[#0CC8A8]" : `${muted} border-transparent`}`}
                     >
                       {label}
                     </button>
                   ))}
                 </div>
+                {/* Log output */}
                 <div
                   ref={logRef}
-                  style={{
-                    flex: 1,
-                    overflowY: "auto",
-                    padding: "20px 24px",
-                    background: t.consoleBg,
-                    color: t.logText,
-                  }}
+                  className={`flex-1 overflow-y-auto px-6 py-5 ${consoleBg}`}
+                  style={{ color: logText }}
                 >
                   {activeLines.map((line, i) => (
-                    <LogLine key={i} line={line} />
+                    <LogLine key={i} line={line} logText={logText} />
                   ))}
                 </div>
               </div>
-              <div
-                style={{
-                  width: 400,
-                  flexShrink: 0,
-                  display: "flex",
-                  flexDirection: "column",
-                  overflow: "hidden",
-                }}
-              >
+
+              <div className="w-[400px] shrink-0 flex flex-col overflow-hidden">
                 <div
-                  style={{
-                    padding: "14px 20px",
-                    borderBottom: `1px solid ${t.border}`,
-                    background: t.surface2,
-                    flexShrink: 0,
-                  }}
+                  className={`px-5 py-3.5 border-b ${border} ${surface2} shrink-0`}
                 >
-                  <span
-                    style={{ fontWeight: 600, fontSize: 14, color: t.text }}
-                  >
+                  <span className={`font-semibold text-[14px] ${text}`}>
                     Finding Log
                   </span>
                 </div>
                 <div
-                  style={{
-                    flex: 1,
-                    overflowY: "auto",
-                    padding: "16px",
-                    background: t.bg,
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: 12,
-                  }}
+                  className={`flex-1 overflow-y-auto p-4 ${bg} flex flex-col gap-3`}
                 >
                   {FINDINGS.map((f, i) => (
                     <div
                       key={i}
-                      style={{
-                        background: t.surface,
-                        border: `1px solid ${t.border}`,
-                        borderRadius: 12,
-                        padding: "14px 16px",
-                        cursor: "pointer",
-                        transition: "border-color 0.15s",
-                      }}
-                      onMouseEnter={(e) =>
-                        (e.currentTarget.style.borderColor = "#0CC8A8")
-                      }
-                      onMouseLeave={(e) =>
-                        (e.currentTarget.style.borderColor = t.border)
-                      }
+                      className={`${surface} border ${border} rounded-xl p-4 cursor-pointer transition-colors hover:border-[#0CC8A8]`}
                     >
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "space-between",
-                          marginBottom: 8,
-                        }}
-                      >
-                        <SeverityBadge severity={f.severity} />
+                      <div className="flex items-center justify-between mb-2">
                         <span
-                          style={{
-                            fontSize: 11,
-                            color: t.muted,
-                            fontFamily: "monospace",
-                          }}
+                          className={`inline-block px-2.5 py-0.5 rounded-md text-[11px] font-bold ${SEVERITY_BADGE[f.severity] || "bg-gray-500 text-white"}`}
                         >
+                          {f.severity}
+                        </span>
+                        <span className={`text-[11px] ${muted} font-mono`}>
                           {f.time}
                         </span>
                       </div>
                       <div
-                        style={{
-                          fontSize: 13.5,
-                          fontWeight: 600,
-                          color: t.text,
-                          marginBottom: 5,
-                        }}
+                        className={`text-[13.5px] font-semibold ${text} mb-1`}
                       >
                         {f.title}
                       </div>
-                      <div
-                        style={{
-                          fontSize: 12,
-                          color: "#0CC8A8",
-                          fontFamily: "monospace",
-                          marginBottom: 7,
-                        }}
-                      >
+                      <div className="text-[12px] text-[#0CC8A8] font-mono mb-1.5">
                         {f.path}
                       </div>
-                      <div
-                        style={{
-                          fontSize: 12,
-                          color: t.muted,
-                          lineHeight: 1.5,
-                        }}
-                      >
+                      <div className={`text-[12px] ${muted} leading-relaxed`}>
                         {f.desc}
                       </div>
                     </div>
@@ -1450,69 +844,32 @@ export default function ScanDetail() {
         </div>
 
         <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 24,
-            padding: "8px 20px",
-            borderTop: `1px solid ${t.border}`,
-            background: t.surface,
-            fontSize: 12,
-            color: t.muted,
-            flexShrink: 0,
-            flexWrap: "wrap",
-          }}
+          className={`flex items-center gap-6 flex-wrap px-5 py-2 border-t ${border} ${surface} text-xs ${muted} shrink-0`}
         >
-          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <span
-              style={{
-                width: 6,
-                height: 6,
-                borderRadius: "50%",
-                background: t.muted,
-                display: "inline-block",
-              }}
-            />
-            Sub-Agents: 0
-          </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <span
-              style={{
-                width: 6,
-                height: 6,
-                borderRadius: "50%",
-                background: t.muted,
-                display: "inline-block",
-              }}
-            />
-            Parallel Executions: 2
-          </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <span
-              style={{
-                width: 6,
-                height: 6,
-                borderRadius: "50%",
-                background: t.muted,
-                display: "inline-block",
-              }}
-            />
-            Operations: 1
-          </div>
-          <div style={{ marginLeft: "auto", display: "flex", gap: 20 }}>
+          {[
+            ["Sub-Agents", "0"],
+            ["Parallel Executions", "2"],
+            ["Operations", "1"],
+          ].map(([label, val]) => (
+            <div key={label} className="flex items-center gap-1.5">
+              <span
+                className={`w-1.5 h-1.5 rounded-full inline-block ${dark ? "bg-[#888897]" : "bg-gray-400"}`}
+              />
+              {label}: {val}
+            </div>
+          ))}
+          <div className="ml-auto flex gap-5">
             <span>
-              Critical:{" "}
-              <span style={{ color: "#EF4444", fontWeight: 600 }}>0</span>
+              Critical: <span className="text-red-500 font-semibold">0</span>
             </span>
             <span>
-              High: <span style={{ color: "#F97316", fontWeight: 600 }}>0</span>
+              High: <span className="text-orange-500 font-semibold">0</span>
             </span>
             <span>
-              Medium:{" "}
-              <span style={{ color: "#F59E0B", fontWeight: 600 }}>0</span>
+              Medium: <span className="text-amber-500 font-semibold">0</span>
             </span>
             <span>
-              Low: <span style={{ color: "#22C55E", fontWeight: 600 }}>0</span>
+              Low: <span className="text-green-500 font-semibold">0</span>
             </span>
           </div>
         </div>

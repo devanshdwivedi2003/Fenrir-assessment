@@ -31,53 +31,11 @@ export default function LoginPage() {
   };
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        fontFamily: "'Inter', system-ui, -apple-system, sans-serif",
-        color: "#ffffff",
-        position: "relative",
-        overflow: "hidden",
-        background: "#090d11",
-      }}
-    >
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        *, *::before, *::after { box-sizing: border-box; }
-        body { margin: 0; }
-        .login-input:focus {
-          outline: none;
-          border-color: #0CC8A8 !important;
-          box-shadow: 0 0 0 3px rgba(12,200,168,0.15) !important;
-        }
-        .login-input::placeholder { color: #AAAAAA; }
-        @media (min-width: 1024px) {
-          .login-layout { flex-direction: row !important; }
-          .login-left  { width: 55% !important; display: flex !important; }
-          .login-right { width: 45% !important; }
-        }
-        @media (max-width: 1023px) {
-          .login-left { display: none !important; }
-          .login-right { width: 100% !important; min-height: 100vh; }
-        }
-      `}</style>
-
-      {/* ── Gradient layers matching screenshot ── */}
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          zIndex: 0,
-          overflow: "hidden",
-          pointerEvents: "none",
-        }}
-      >
-        {/* Top-left teal bloom */}
+    <div className="relative min-h-screen flex flex-col overflow-hidden bg-[#090d11] text-white font-sans">
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         <div
+          className="absolute"
           style={{
-            position: "absolute",
             top: "-15%",
             left: "-10%",
             width: "60%",
@@ -87,10 +45,9 @@ export default function LoginPage() {
             filter: "blur(55px)",
           }}
         />
-        {/* Mid-left softer teal fill */}
         <div
+          className="absolute"
           style={{
-            position: "absolute",
             top: "15%",
             left: "2%",
             width: "45%",
@@ -100,10 +57,9 @@ export default function LoginPage() {
             filter: "blur(90px)",
           }}
         />
-        {/* Bottom-right orange-red blast */}
         <div
+          className="absolute"
           style={{
-            position: "absolute",
             bottom: "-20%",
             right: "-12%",
             width: "80%",
@@ -113,10 +69,9 @@ export default function LoginPage() {
             filter: "blur(70px)",
           }}
         />
-        {/* Centre-bottom warm bleed */}
         <div
+          className="absolute"
           style={{
-            position: "absolute",
             bottom: "-5%",
             right: "10%",
             width: "55%",
@@ -128,95 +83,28 @@ export default function LoginPage() {
         />
       </div>
 
-      {/* ── Layout ── */}
-      <div
-        className="login-layout"
-        style={{ display: "flex", flex: 1, position: "relative", zIndex: 1 }}
-      >
-        {/* LEFT COLUMN */}
-        <div
-          className="login-left"
-          style={{
-            flexDirection: "column",
-            justifyContent: "space-between",
-            padding: "32px 40px",
-            minHeight: "100vh",
-            color: "#ffffff",
-          }}
-        >
-          {/* Logo */}
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <div
-              style={{
-                width: 16,
-                height: 16,
-                borderRadius: "50%",
-                background: "#0CC8A8",
-              }}
-            />
-            <span
-              style={{
-                fontWeight: 700,
-                fontSize: 22,
-                letterSpacing: "-0.02em",
-              }}
-            >
-              aps
-            </span>
+      <div className="relative z-10 flex flex-1 flex-col lg:flex-row">
+        <div className="hidden lg:flex lg:w-[55%] flex-col justify-between px-10 py-8 min-h-screen">
+          <div className="flex items-center gap-2.5">
+            <div className="w-4 h-4 rounded-full bg-[#0CC8A8]" />
+            <span className="font-bold text-[22px] tracking-tight">aps</span>
           </div>
-
-          {/* Hero */}
-          <div
-            style={{
-              maxWidth: 630,
-              marginTop: 80,
-              marginBottom: "auto",
-              paddingTop: 40,
-            }}
-          >
-            <h1
-              style={{
-                fontSize: 46,
-                lineHeight: 1.15,
-                fontWeight: 700,
-                letterSpacing: "-0.02em",
-                margin: "0 0 40px 0",
-              }}
-            >
+          <div className="max-w-[630px] mt-20 mb-auto pt-10">
+            <h1 className="text-[46px] leading-[1.15] font-bold tracking-tight mb-10">
               Expert level Cybersecurity
               <br />
-              in <span style={{ color: "#0CC8A8" }}>hours</span> not weeks.
+              in <span className="text-[#0CC8A8]">hours</span> not weeks.
             </h1>
-            <h3 style={{ fontSize: 17, fontWeight: 600, margin: "0 0 20px 0" }}>
-              What's included
-            </h3>
-            <ul
-              style={{
-                listStyle: "none",
-                padding: 0,
-                margin: 0,
-                display: "flex",
-                flexDirection: "column",
-                gap: 20,
-              }}
-            >
+            <h3 className="text-[17px] font-semibold mb-5">What's included</h3>
+            <ul className="space-y-5 list-none p-0 m-0">
               {[
                 "Effortlessly spider and map targets to uncover hidden security flaws",
                 "Deliver high-quality, validated findings in hours, not weeks.",
                 "Generate professional, enterprise-grade security reports automatically.",
               ].map((text, i) => (
-                <li
-                  key={i}
-                  style={{ display: "flex", alignItems: "flex-start", gap: 14 }}
-                >
+                <li key={i} className="flex items-start gap-3.5">
                   <svg
-                    style={{
-                      width: 18,
-                      height: 18,
-                      color: "#0CC8A8",
-                      marginTop: 3,
-                      flexShrink: 0,
-                    }}
+                    className="w-[18px] h-[18px] text-[#0CC8A8] mt-1 shrink-0"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -228,9 +116,7 @@ export default function LoginPage() {
                       d="M5 13l4 4L19 7"
                     />
                   </svg>
-                  <span
-                    style={{ color: "#D1D5DB", fontSize: 15, lineHeight: 1.6 }}
-                  >
+                  <span className="text-gray-300 text-[15px] leading-relaxed">
                     {text}
                   </span>
                 </li>
@@ -238,184 +124,87 @@ export default function LoginPage() {
             </ul>
           </div>
 
-          {/* Trustpilot */}
-          <div style={{ marginBottom: 64 }}>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 8,
-                marginBottom: 6,
-              }}
-            >
+          <div className="mb-16">
+            <div className="flex items-center gap-2 mb-1.5">
               <svg
-                style={{ width: 20, height: 20, color: "#00b67a" }}
+                className="w-5 h-5 text-[#00b67a]"
                 fill="currentColor"
                 viewBox="0 0 20 20"
               >
                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
               </svg>
-              <span style={{ fontWeight: 700, fontSize: 13 }}>Trustpilot</span>
+              <span className="font-bold text-[13px]">Trustpilot</span>
             </div>
             <div>
-              <span style={{ fontWeight: 600, fontSize: 16 }}>
-                Rated 4.5/5.0{" "}
-              </span>
-              <span style={{ color: "#8d8d8d", fontSize: 11 }}>
+              <span className="font-semibold text-[16px]">Rated 4.5/5.0 </span>
+              <span className="text-[#8d8d8d] text-[11px]">
                 (100k+ reviews)
               </span>
             </div>
           </div>
         </div>
 
-        {/* RIGHT COLUMN */}
-        <div
-          className="login-right"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "24px 48px",
-          }}
-        >
-          <div
-            style={{
-              background: "#FFFFFF",
-              color: "#1A1A1A",
-              borderRadius: 20,
-              padding: "40px",
-              width: "100%",
-              maxWidth: 480,
-              boxShadow: "0 32px 80px rgba(0,0,0,0.55)",
-            }}
-          >
-            {/* Header */}
-            <div style={{ textAlign: "center", marginBottom: 28 }}>
-              <h2
-                style={{
-                  fontSize: 28,
-                  fontWeight: 700,
-                  margin: "0 0 8px 0",
-                  color: "#1A1A1A",
-                }}
-              >
+        <div className="w-full lg:w-[45%] flex items-center justify-center px-6 py-8 md:px-12 min-h-screen lg:min-h-0">
+          <div className="bg-white text-[#1A1A1A] rounded-[20px] p-10 w-full max-w-[480px] shadow-[0_32px_80px_rgba(0,0,0,0.55)]">
+            <div className="text-center mb-7">
+              <h2 className="text-[28px] font-bold mb-2 text-[#1A1A1A]">
                 Sign up
               </h2>
-              <p style={{ fontSize: 14, color: "#6B7280", margin: 0 }}>
+              <p className="text-[14px] text-gray-500 m-0">
                 Already have an account?{" "}
                 <a
                   href="#"
-                  style={{
-                    color: "#0CC8A8",
-                    fontWeight: 600,
-                    textDecoration: "none",
-                  }}
+                  className="text-[#0CC8A8] font-semibold no-underline hover:underline"
                 >
                   Log in
                 </a>
               </p>
             </div>
 
-            <form
-              style={{ display: "flex", flexDirection: "column", gap: 14 }}
-              onSubmit={handleSubmit}
-            >
+            <form className="flex flex-col gap-3.5" onSubmit={handleSubmit}>
               <input
-                className="login-input"
+                className="login-input w-full px-4 py-3.5 rounded-[10px] border border-[#E5E5E5] bg-white text-[#1A1A1A] text-sm transition-all"
                 name="firstName"
                 required
                 onChange={handleChange}
                 type="text"
                 placeholder="First name*"
-                style={{
-                  width: "100%",
-                  padding: "14px 16px",
-                  borderRadius: 10,
-                  border: "1px solid #E5E5E5",
-                  background: "#FFFFFF",
-                  color: "#1A1A1A",
-                  fontSize: 14,
-                  transition: "border-color 0.15s, box-shadow 0.15s",
-                }}
               />
-
               <input
-                className="login-input"
+                className="login-input w-full px-4 py-3.5 rounded-[10px] border border-[#E5E5E5] bg-white text-[#1A1A1A] text-sm transition-all"
                 name="lastName"
                 required
                 onChange={handleChange}
                 type="text"
                 placeholder="Last name*"
-                style={{
-                  width: "100%",
-                  padding: "14px 16px",
-                  borderRadius: 10,
-                  border: "1px solid #E5E5E5",
-                  background: "#FFFFFF",
-                  color: "#1A1A1A",
-                  fontSize: 14,
-                  transition: "border-color 0.15s, box-shadow 0.15s",
-                }}
               />
-
               <input
-                className="login-input"
+                className="login-input w-full px-4 py-3.5 rounded-[10px] border border-[#E5E5E5] bg-white text-[#1A1A1A] text-sm transition-all"
                 name="email"
                 required
                 onChange={handleChange}
                 type="email"
                 placeholder="Email address*"
-                style={{
-                  width: "100%",
-                  padding: "14px 16px",
-                  borderRadius: 10,
-                  border: "1px solid #E5E5E5",
-                  background: "#FFFFFF",
-                  color: "#1A1A1A",
-                  fontSize: 14,
-                  transition: "border-color 0.15s, box-shadow 0.15s",
-                }}
               />
 
-              <div style={{ position: "relative" }}>
+              <div className="relative">
                 <input
-                  className="login-input"
+                  className="login-input w-full px-4 pr-14 py-3.5 rounded-[10px] border border-[#E5E5E5] bg-white text-[#1A1A1A] text-sm transition-all"
                   name="password"
                   required
                   onChange={handleChange}
                   type={showPassword ? "text" : "password"}
                   placeholder="Password (8+ characters)*"
-                  style={{
-                    width: "100%",
-                    padding: "14px 56px 14px 16px",
-                    borderRadius: 10,
-                    border: "1px solid #E5E5E5",
-                    background: "#FFFFFF",
-                    color: "#1A1A1A",
-                    fontSize: 14,
-                    transition: "border-color 0.15s, box-shadow 0.15s",
-                  }}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  style={{
-                    position: "absolute",
-                    right: 16,
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                    background: "none",
-                    border: "none",
-                    cursor: "pointer",
-                    color: "#9CA3AF",
-                    display: "flex",
-                    padding: 0,
-                  }}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 bg-transparent border-none cursor-pointer flex p-0"
                   aria-label={showPassword ? "Hide password" : "Show password"}
                 >
                   {showPassword ? (
                     <svg
-                      style={{ width: 20, height: 20 }}
+                      className="w-5 h-5"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -435,7 +224,7 @@ export default function LoginPage() {
                     </svg>
                   ) : (
                     <svg
-                      style={{ width: 20, height: 20 }}
+                      className="w-5 h-5"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -451,52 +240,25 @@ export default function LoginPage() {
                 </button>
               </div>
 
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "flex-start",
-                  gap: 12,
-                  paddingTop: 4,
-                  paddingBottom: 4,
-                }}
-              >
+              <div className="flex items-start gap-3 py-1">
                 <input
                   name="agree"
                   required
                   onChange={handleChange}
                   type="checkbox"
                   id="terms"
-                  style={{
-                    marginTop: 2,
-                    width: 16,
-                    height: 16,
-                    borderRadius: 4,
-                    accentColor: "#0CC8A8",
-                    cursor: "pointer",
-                    flexShrink: 0,
-                  }}
+                  className="mt-0.5 w-4 h-4 cursor-pointer shrink-0 accent-[#0CC8A8]"
                 />
                 <label
                   htmlFor="terms"
-                  style={{
-                    fontSize: 13,
-                    color: "#1A1A1A",
-                    lineHeight: 1.5,
-                    cursor: "pointer",
-                  }}
+                  className="text-[13px] text-[#1A1A1A] leading-relaxed cursor-pointer"
                 >
                   I agree to Aps's{" "}
-                  <a
-                    href="#"
-                    style={{ color: "#0056D2", textDecoration: "underline" }}
-                  >
+                  <a href="#" className="text-[#0056D2] underline">
                     Terms & Conditions
                   </a>{" "}
                   and acknowledge the{" "}
-                  <a
-                    href="#"
-                    style={{ color: "#0056D2", textDecoration: "underline" }}
-                  >
+                  <a href="#" className="text-[#0056D2] underline">
                     Privacy Policy
                   </a>
                 </label>
@@ -504,83 +266,31 @@ export default function LoginPage() {
 
               <button
                 type="submit"
-                style={{
-                  width: "100%",
-                  background: "#0CC8A8",
-                  color: "#fff",
-                  fontWeight: 600,
-                  fontSize: 15,
-                  padding: "15px 0",
-                  borderRadius: 999,
-                  border: "none",
-                  cursor: "pointer",
-                  transition: "background 0.15s",
-                  marginTop: 4,
-                }}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.background = "#0aaf93")
-                }
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.background = "#0CC8A8")
-                }
+                className="w-full bg-[#0CC8A8] hover:bg-[#0aaf93] text-white font-semibold py-4 rounded-full border-none cursor-pointer transition-colors text-[15px] mt-1"
               >
                 Create account
               </button>
             </form>
 
-            {/* Social Logins */}
-            <div style={{ marginTop: 16, display: "flex", gap: 12 }}>
+            <div className="mt-4 flex gap-3">
               <button
-                style={{
-                  flex: 1,
-                  height: 48,
-                  background: "#000",
-                  borderRadius: 999,
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  border: "none",
-                  cursor: "pointer",
-                }}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.background = "#222")
-                }
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.background = "#000")
-                }
+                className="flex-1 h-12 bg-black hover:bg-[#222] rounded-full flex justify-center items-center border-none cursor-pointer transition-colors"
                 aria-label="Sign up with Apple"
               >
                 <svg
-                  style={{ width: 20, height: 20, color: "#fff" }}
+                  className="w-5 h-5 text-white"
                   viewBox="0 0 24 24"
                   fill="currentColor"
                 >
                   <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.19 2.31-.88 3.5-.84 1.5.05 2.78.8 3.52 1.96-3.02 1.88-2.52 5.95.42 7.15-.65 1.53-1.6 3.12-2.52 3.9zm-3.56-14.7c.6-1.55-.42-3.15-1.92-3.35-.55 1.62.63 3.13 1.92 3.35z" />
                 </svg>
               </button>
-
               <button
-                style={{
-                  flex: 1,
-                  height: 48,
-                  background: "#F9F9F9",
-                  borderRadius: 999,
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  border: "1px solid #E5E5E5",
-                  cursor: "pointer",
-                }}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.background = "#F0F0F0")
-                }
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.background = "#F9F9F9")
-                }
+                className="flex-1 h-12 bg-[#F9F9F9] hover:bg-[#F0F0F0] rounded-full flex justify-center items-center border border-[#E5E5E5] cursor-pointer transition-colors"
                 aria-label="Sign up with Google"
               >
                 <svg
-                  style={{ width: 18, height: 18 }}
+                  className="w-[18px] h-[18px]"
                   viewBox="0 0 24 24"
                   fill="currentColor"
                 >
@@ -602,29 +312,12 @@ export default function LoginPage() {
                   />
                 </svg>
               </button>
-
               <button
-                style={{
-                  flex: 1,
-                  height: 48,
-                  background: "#3A6BFF",
-                  borderRadius: 999,
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  border: "none",
-                  cursor: "pointer",
-                }}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.background = "#2a5be0")
-                }
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.background = "#3A6BFF")
-                }
+                className="flex-1 h-12 bg-[#3A6BFF] hover:bg-[#2a5be0] rounded-full flex justify-center items-center border-none cursor-pointer transition-colors"
                 aria-label="Sign up with Meta"
               >
                 <svg
-                  style={{ width: 22, height: 22, color: "#fff" }}
+                  className="w-[22px] h-[22px] text-white"
                   viewBox="0 0 36 36"
                   fill="currentColor"
                 >
